@@ -4,6 +4,7 @@ class Solution {
         char [] charArr = my_string.toLowerCase().toCharArray();
         Arrays.sort(charArr);
         String answer = String.valueOf(charArr);
+        // String answer = new String(charArr);
         return answer;
     }
 }
