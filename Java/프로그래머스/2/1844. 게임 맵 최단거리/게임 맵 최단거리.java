@@ -4,50 +4,46 @@ class Solution {
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
     
-    class Location {
+    class CoorD {
         int x;
         int y;
-        int distance;
+        int d;
         
-        Location(int x, int y, int distance) {
+        CoorD(int x, int y, int d) {
             this.x = x;
             this.y = y;
-            this.distance = distance;
+            this.d = d;
         }
     }
     
     public int solution(int[][] maps) {
         int answer = 0;
-        int n = maps.length;
-        int m = maps[0].length;
-        boolean[][] visited = new boolean[n][m];
-        Queue<Location> queue = new LinkedList<>();
+        int n = maps.length; // row
+        int m = maps[0].length; // col
         
-        // 시작 위치
-        queue.offer(new Location(0,0,1));
+        Queue<CoorD> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[n][m];
+        
+        queue.offer(new CoorD(0,0, 1));
         visited[0][0] = true;
         
-        while(!queue.isEmpty()) {
-            // 현재 위치
-            Location current = queue.poll();
+        while (!queue.isEmpty()) {
+            CoorD current = queue.poll();
             
-            // 도달 시
-            if (current.x == n-1 && current.y == m-1) {
-                return current.distance;
-            }
+            // 도달 O
+            if (current.x == n-1 && current.y == m-1) return current.d;
             
-            // 도달 안 한 경우
+            // 도달 X
             for (int d=0; d<4; d++) {
                 int mx = current.x + dx[d];
                 int my = current.y + dy[d];
                 
                 if (mx>=0 && my>=0 && mx<n && my<m && maps[mx][my]==1 && !visited[mx][my]) {
+                    queue.offer(new CoorD(mx,my, current.d+1));
                     visited[mx][my] = true;
-                    queue.offer(new Location(mx, my, current.distance+1));
                 }
             }
         }
-        
         return -1;
     }
 }
