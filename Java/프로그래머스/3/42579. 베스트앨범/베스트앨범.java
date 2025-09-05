@@ -35,6 +35,10 @@ class Solution {
                 answerList.add(songs.get(i).id);
             }
         }
-        return answerList.stream().mapToInt(i -> i).toArray();
+        int[] answer = new int[answerList.size()];
+        for (int i=0; i<answerList.size(); i++) {
+            answer[i] = answerList.get(i);
+        }
+        return answer;
     }
 }
