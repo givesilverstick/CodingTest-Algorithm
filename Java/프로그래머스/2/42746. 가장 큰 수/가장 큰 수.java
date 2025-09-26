@@ -2,23 +2,17 @@ import java.util.*;
 
 class Solution {
     public String solution(int[] numbers) {
-        String answer = "";
-        int max = Integer.MIN_VALUE;
-        
-        String[] arr = new String[numbers.length];
+        // 1. string으로 변환
+        String[] numbers_str = new String[numbers.length];
         for (int i=0; i<numbers.length; i++) {
-            arr[i] = String.valueOf(numbers[i]);
+            numbers_str[i] = String.valueOf(numbers[i]);
         }
-        
-        Arrays.sort(arr, (a,b) -> (b+a).compareTo(a+b));
-        
-        for (String num : arr) {
-            answer += num;
-        }
-        
-        if (arr[0].equals("0")) {
-            answer = "0";
-        }
+        // 2. 정렬
+        Arrays.sort(numbers_str, (a,b) -> (b+a).compareTo(a+b));
+        // 3. 값
+        String answer = String.join("", numbers_str);
+        // 4. 예외처리
+        if (answer.charAt(0) == '0') answer = "0";
         return answer;
     }
 }
