@@ -1,23 +1,17 @@
 import java.util.*;
+
 class Solution {
     public int solution(int[] scoville, int K) {
         int answer = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>(); // 기본: 오름차순, peek() -> root인 가장 작은 수
-        
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
         for (int s : scoville) {
-            pq.add(s);
+            heap.add(s);
         }
-        
-        int count = 0;
-        while(pq.size() >= 2 && pq.peek() < K) {
-            pq.add(cal(pq.poll(), pq.poll()));
-            count++;
+        while (heap.peek() < K) {
+            if (heap.size() == 1) return -1;
+            heap.add(heap.poll() + (heap.poll()*2));
+            answer++;
         }
-        answer = pq.peek() >= K ? count : -1;
         return answer;
-    }
-    
-    static int cal(int first, int second) {
-        return first + second*2;
     }
 }
