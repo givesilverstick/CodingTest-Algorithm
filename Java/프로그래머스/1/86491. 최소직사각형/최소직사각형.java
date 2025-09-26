@@ -2,15 +2,17 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] sizes) {
-        int width = Integer.MIN_VALUE;
-        int height = Integer.MIN_VALUE;
-        
-        for (int i=0; i<sizes.length; i++) {
-            Arrays.sort(sizes[i]);
-            if (width < sizes[i][0]) width = sizes[i][0];
-            if (height < sizes[i][1]) height = sizes[i][1];
+        for (int[] size : sizes){
+            Arrays.sort(size);
         }
-        int answer = width * height;
+        int w = Integer.MIN_VALUE;
+        int h = Integer.MIN_VALUE;
+        
+        for (int[] size : sizes) {
+            if (size[0] > w) w = size[0];
+            if (size[1] > h) h = size[1];
+        }
+        int answer = w * h;
         return answer;
     }
 }
