@@ -1,49 +1,34 @@
 import java.util.*;
 
 class Solution {
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-    
-    class CoorD {
-        int x;
-        int y;
-        int d;
-        
-        CoorD(int x, int y, int d) {
-            this.x = x;
-            this.y = y;
-            this.d = d;
-        }
-    }
-    
+    int[] dx = {-1, 1, 0, 0};
+    int[] dy = {0, 0, -1, 1};
     public int solution(int[][] maps) {
-        int answer = 0;
-        int n = maps.length; // row
-        int m = maps[0].length; // col
-        
-        Queue<CoorD> queue = new LinkedList<>();
+        int answer = -1;
+        int n = maps.length;
+        int m = maps[0].length;
         boolean[][] visited = new boolean[n][m];
+        int[][] distance = new int[n][m];
         
-        queue.offer(new CoorD(0,0, 1));
+        Queue<int[]> queue = new LinkedList<>();
+        
+        queue.add(new int[] {0,0});
         visited[0][0] = true;
+        distance[0][0] = 1;
         
-        while (!queue.isEmpty()) {
-            CoorD current = queue.poll();
-            
-            // 도달 O
-            if (current.x == n-1 && current.y == m-1) return current.d;
-            
-            // 도달 X
-            for (int d=0; d<4; d++) {
-                int mx = current.x + dx[d];
-                int my = current.y + dy[d];
-                
-                if (mx>=0 && my>=0 && mx<n && my<m && maps[mx][my]==1 && !visited[mx][my]) {
-                    queue.offer(new CoorD(mx,my, current.d+1));
-                    visited[mx][my] = true;
+        while(!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int i=0; i<dx.length; i++) {
+                int nx = cur[0] + dx[i];
+                int ny = cur[1] + dy[i];
+                if (nx>=0 && nx<n && ny>=0 && ny<m && !visited[nx][ny] && maps[nx][ny]==1) {
+                    queue.add(new int[] {nx, ny});
+                    visited[nx][ny] = true;
+                    distance[nx][ny] = distance[cur[0]][cur[1]]+1;
                 }
             }
         }
-        return -1;
+        if(visited[n-1][m-1]) answer = distance[n-1][m-1];
+        return answer;
     }
 }
