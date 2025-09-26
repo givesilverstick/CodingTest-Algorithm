@@ -1,11 +1,10 @@
 import java.util.*;
+
 class Solution {
-    
-    class WordNode {
+    class Word {
         String word;
         int step;
-        
-        WordNode(String word, int step) {
+        Word(String word, int step) {
             this.word = word;
             this.step = step;
         }
@@ -13,36 +12,35 @@ class Solution {
     
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
-        Queue<WordNode> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
+        Set<String> wordSet = new HashSet<>(Arrays.asList(words));
+        if (!wordSet.contains(target)) return 0;
         
-        // 첫 시작 단어
-        queue.offer(new WordNode(begin, 0));
-        visited.add(begin);
+        Queue<Word> queue = new LinkedList<>();
+        queue.add(new Word(begin, 0));
         
         while (!queue.isEmpty()) {
-            WordNode node = queue.poll();
-            // 타겟과 같을 때
-            if (node.word.equals(target)) return node.step;
+            Word cur = queue.poll();
+            String word = cur.word;
+            int step = cur.step;
+            if (word.equals(target)) return step;
             
-            // 타겟과 다를 때
-            
-            for (String w : words) {
-                if (isOneDiff(w, node.word) && !visited.contains(w)) {
-                    System.out.println(w);
-                    queue.offer(new WordNode(w, node.step+1));
-                    visited.add(w);
+            Iterator<String> it = wordSet.iterator();
+            while (it.hasNext()) {
+                String next = it.next();
+                if (canChange(word, next)) {
+                    queue.add(new Word(next, step+1));
+                    it.remove();
                 }
             }
-            
         }
+        
         return answer;
     }
-    private boolean isOneDiff(String a, String b) {
+    
+    boolean canChange(String a, String b) {
         int diff = 0;
         for (int i=0; i<a.length(); i++) {
             if (a.charAt(i) != b.charAt(i)) diff++;
-            if (diff > 1) return false;
         }
         return diff == 1;
     }
