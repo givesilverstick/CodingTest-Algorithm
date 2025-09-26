@@ -8,7 +8,6 @@ class Solution {
             Arrays.sort(slice);
             answer[i] = slice[commands[i][2]-1];
         }
-        
         return answer;
     }
 }
