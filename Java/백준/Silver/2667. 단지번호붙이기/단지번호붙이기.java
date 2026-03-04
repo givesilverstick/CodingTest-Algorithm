@@ -27,7 +27,7 @@ public class Main {
 		for (int i=0; i<N; i++) {
 			for (int j=0; j<N; j++) {
 				if (map[i][j]==1 && !visited[i][j]) {
-					count.add(dfs(i, j, 1));
+					count.add(dfs(i, j));
 				}
 			}
 		}
@@ -40,15 +40,16 @@ public class Main {
 		
 	}
 	
-	public static int dfs(int r, int c, int count) {
+	public static int dfs(int r, int c) {
 		visited[r][c] = true;
+		int count = 1;
 		
 		for (int d=0; d<4; d++) {
 			int nr = r+dr[d];
 			int nc = c+dc[d];
 			if (nr>=0 && nr<N && nc>=0 && nc<N && !visited[nr][nc] && map[nr][nc]==1) {
 				visited[nr][nc] = true;
-				count = dfs(nr, nc, count+1);
+				count += dfs(nr, nc);
 			}
 		}
 		return count;
