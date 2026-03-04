@@ -1,61 +1,56 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-// DFS 문제 감 익히는 용 (직접 풀기X)
 public class Main {
-    static int N;
-    static int[][] map;
-    static boolean[][] visited;
-    static int count; // 단지 내 집 수 카운트용
-    
-    // 상하좌우
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-    
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        
-        N = sc.nextInt();
-        map = new int[N][N];
-        visited = new boolean[N][N];
-        
-        for (int i=0; i<N; i++) {
-            String line = sc.next(); // 한 줄 입력받기
-            for (int j=0; j<N; j++) {
-                map[i][j] = line.charAt(j) - '0'; // 문자 -> 숫자
-            }
-        }
-        
-        List<Integer> groupSizes = new ArrayList<>();
-        for (int i=0; i<N; i++) {
-            for (int j=0; j<N; j++) {
-                if (map[i][j] == 1 && !visited[i][j]) {
-                    count = 0;
-                    dfs(i,j);
-                    groupSizes.add(count);
-                }
-            }
-        }
-        
-        Collections.sort(groupSizes); // 오름차순 정렬
-        System.out.println(groupSizes.size());
-        for (int size : groupSizes) {
-            System.out.println(size);
-        }
-    }
-    
-    static void dfs(int x, int y) {
-        visited[x][y] = true;
-        count++;
-        
-        for (int d=0; d<4; d++) {
-            int nx = x + dx[d];
-            int ny = y + dy[d];
-            
-            if (nx>=0 && ny>=0 && nx<N && ny<N) {
-                if (map[nx][ny]==1 && !visited[nx][ny]) {
-                    dfs(nx, ny);
-                }
-            }
-        }
-    }
+
+	static int N, map[][];
+	static int[] dr={-1,1,0,0}, dc={0,0,-1,1};
+	static boolean[][] visited;
+	static List<Integer> count;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		map = new int[N][N];
+		count = new ArrayList<>();
+		visited = new boolean[N][N];
+		for (int i=0; i<N; i++) {
+			String str = br.readLine();
+			for (int j=0; j<N; j++) {
+				map[i][j] = str.charAt(j)-'0';
+			}
+		}
+		
+		//solve
+		for (int i=0; i<N; i++) {
+			for (int j=0; j<N; j++) {
+				if (map[i][j]==1 && !visited[i][j]) {
+					count.add(dfs(i, j, 1));
+				}
+			}
+		}
+		
+		count.sort((a,b)->a-b);
+		System.out.println(count.size());
+		for (int num : count) {
+			System.out.println(num);
+		}
+		
+	}
+	
+	public static int dfs(int r, int c, int count) {
+		visited[r][c] = true;
+		
+		for (int d=0; d<4; d++) {
+			int nr = r+dr[d];
+			int nc = c+dc[d];
+			if (nr>=0 && nr<N && nc>=0 && nc<N && !visited[nr][nc] && map[nr][nc]==1) {
+				visited[nr][nc] = true;
+				count = dfs(nr, nc, count+1);
+			}
+		}
+		return count;
+	}
 }
