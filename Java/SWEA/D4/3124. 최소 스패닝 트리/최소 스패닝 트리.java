@@ -60,6 +60,7 @@ public class Solution {
 			minEdge[0] = 0;
 			
 			long result = 0;
+			int count = 0;
 			PriorityQueue<Vertex> pq = new PriorityQueue<>();
 			pq.offer(new Vertex(0, 0));	// minVertex, min
 			
@@ -70,6 +71,8 @@ public class Solution {
 				
 				visited[cur.vertex] = true;
 				result += cur.weight;
+				
+				if (++count == V) break;
 				
 				for (Node temp=adjList[cur.vertex]; temp!=null; temp=temp.next) {
 					if (!visited[temp.vertex] && minEdge[temp.vertex]>temp.weight) {
