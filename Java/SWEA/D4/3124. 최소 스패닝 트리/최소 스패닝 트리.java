@@ -32,7 +32,6 @@ public class Solution {
 		}
 	}
 	
-	static int V, E, parents[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -41,8 +40,8 @@ public class Solution {
 		int T = Integer.parseInt(br.readLine());
 		for (int tc=1; tc<=T; tc++) {
 			st = new StringTokenizer(br.readLine());
-			V = Integer.parseInt(st.nextToken());	// 정점 개수
-			E = Integer.parseInt(st.nextToken());	// 간선 개수
+			int V = Integer.parseInt(st.nextToken());	// 정점 개수
+			int E = Integer.parseInt(st.nextToken());	// 간선 개수
 			Node[] adjList = new Node[V];
 			boolean[] visited = new boolean[V];
 			int[] minEdge = new int[V];
