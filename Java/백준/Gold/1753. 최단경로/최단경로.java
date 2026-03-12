@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -14,6 +15,21 @@ public class Main {
 			this.vertex = vertex;
 			this.weight = weight;
 			this.next = next;
+		}
+	}
+	
+	// pq용
+	static class Vertex implements Comparable<Vertex> {
+		int vertex, weight;
+		
+		Vertex(int vertex, int weight) {
+			this.vertex = vertex;
+			this.weight = weight;
+		}
+		
+		@Override
+		public int compareTo(Vertex o) {
+			return Integer.compare(this.weight, o.weight);
 		}
 	}
 	
@@ -45,21 +61,16 @@ public class Main {
 		Arrays.fill(minDist, INF);
 		minDist[K] = 0;	// 출발점
 		
-		for (int c=0; c<V; c++) {
-			int minVertex = -1, min = INF;
-			for (int i=1; i<V+1; i++) {
-				if (!visited[i] && min > minDist[i]) {
-					minVertex = i;
-					min = minDist[i];
-				}
-			}
+		PriorityQueue<Vertex> pq = new PriorityQueue<>();
+		pq.offer(new Vertex(K, minDist[K])); 	// minVertex, min
+		
+		while(!pq.isEmpty()) {
+			Vertex cur = pq.poll();
 			
-			if (minVertex==-1) break;
-			visited[minVertex] = true;
-			
-			for (Node temp=adjList[minVertex]; temp!=null; temp=temp.next) {
-				if (!visited[temp.vertex] && minDist[temp.vertex]>min+temp.weight) {
-					minDist[temp.vertex] = min+temp.weight;
+			for (Node temp=adjList[cur.vertex]; temp!=null; temp=temp.next) {
+				if (!visited[temp.vertex] && minDist[temp.vertex]>cur.weight+temp.weight) {
+					minDist[temp.vertex] = cur.weight+temp.weight;
+					pq.offer(new Vertex(temp.vertex, minDist[temp.vertex]));
 				}
 			}
 		}
