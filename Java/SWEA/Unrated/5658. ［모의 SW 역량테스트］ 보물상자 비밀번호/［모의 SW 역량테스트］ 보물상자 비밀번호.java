@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -32,9 +33,9 @@ public class Solution {
 				}
 				str = str.charAt(str.length()-1) + str.substring(0,str.length()-1);
 			}
-			String[] arr = set.toArray(new String[0]);
-			Arrays.sort(arr, Collections.reverseOrder());
-			sb.append("#").append(tc).append(" ").append(Integer.parseInt(arr[K-1], 16)).append("\n");
+            List<String> list = new ArrayList<>(set);
+            Collections.sort(list, Collections.reverseOrder()); // 내림차순
+            sb.append("#").append(tc).append(" ").append(Integer.parseInt(list.get(K-1), 16)).append("\n");
 		}
 		System.out.println(sb);
 	}
