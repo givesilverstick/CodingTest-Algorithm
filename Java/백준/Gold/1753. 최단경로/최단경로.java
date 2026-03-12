@@ -67,6 +67,10 @@ public class Main {
 		while(!pq.isEmpty()) {
 			Vertex cur = pq.poll();
 			
+			if (visited[cur.vertex]) continue;
+			
+			visited[cur.vertex] = true;
+			
 			for (Node temp=adjList[cur.vertex]; temp!=null; temp=temp.next) {
 				if (!visited[temp.vertex] && minDist[temp.vertex]>cur.weight+temp.weight) {
 					minDist[temp.vertex] = cur.weight+temp.weight;
