@@ -1,47 +1,45 @@
 import java.util.*;
 
 class Solution {
-    class Word {
-        String word;
-        int step;
-        Word(String word, int step) {
-            this.word = word;
-            this.step = step;
-        }
-    }
     
+    static int answer;
+    static List<String> wordList;
+    static boolean[] checked;
     public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        Set<String> wordSet = new HashSet<>(Arrays.asList(words));
-        if (!wordSet.contains(target)) return 0;
+        answer = Integer.MAX_VALUE;
+        wordList = new ArrayList<>();
+        checked = new boolean[words.length];
+        for (String word : words) wordList.add(word);
         
-        Queue<Word> queue = new LinkedList<>();
-        queue.add(new Word(begin, 0));
+        if (!wordList.contains(target)) return 0;
         
-        while (!queue.isEmpty()) {
-            Word cur = queue.poll();
-            String word = cur.word;
-            int step = cur.step;
-            if (word.equals(target)) return step;
-            
-            Iterator<String> it = wordSet.iterator();
-            while (it.hasNext()) {
-                String next = it.next();
-                if (canChange(word, next)) {
-                    queue.add(new Word(next, step+1));
-                    it.remove();
-                }
-            }
-        }
+        dfs(0, begin, target);
         
         return answer;
     }
     
-    boolean canChange(String a, String b) {
-        int diff = 0;
-        for (int i=0; i<a.length(); i++) {
-            if (a.charAt(i) != b.charAt(i)) diff++;
+    void dfs(int cnt, String cur, String target) {
+        if (cur.equals(target)) {
+            answer = Math.min(answer, cnt);
+            return;
         }
-        return diff == 1;
+        
+        for (int i=0; i<wordList.size(); i++) {
+            if (!checked[i] && canChange(cur, wordList.get(i))) {
+                checked[i] = true;
+                dfs(cnt+1, wordList.get(i), target);
+                checked[i] = false;
+            }
+        }
+        
+    }
+    
+    boolean canChange(String word1, String word2) {
+        int diff = 0;
+        for (int i=0; i<word1.length(); i++) {
+            if (diff > 1) return false;
+            if (word1.charAt(i)!=word2.charAt(i)) diff++;
+        }
+        return diff==1 ? true : false;
     }
 }
