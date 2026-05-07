@@ -1,40 +1,38 @@
 import java.util.*;
 
 class Solution {
-    List<String> answerList = new ArrayList<>();
-    boolean finished = false;
+    static int n;
+    static String answer[], Tickets[][];
+    static boolean[] visited;
     public String[] solution(String[][] tickets) {
-        String[] answer = {};
+        Tickets = tickets;
+        n = tickets.length;
+        visited = new boolean[n];
         
-        boolean[] visited = new boolean[tickets.length];
-        Arrays.sort(tickets, (a,b) -> {
-            if (a[0].equals(b[0])) return a[1].compareTo(b[1]);
-            return a[0].compareTo(b[0]);
-        });
-        List<String> target = new ArrayList<>();
-        target.add("ICN");
-        dfs(tickets, visited, target);
+        Arrays.sort(tickets, (a,b) -> a[1].compareTo(b[1]));
         
-        answer = answerList.toArray(new String[0]);
         
+        List<String> list = new ArrayList<>();
+        list.add("ICN");
+        dfs(0, "ICN", list);
         return answer;
     }
     
-    void dfs(String[][] tickets, boolean[] visited, List<String> target) {
-        if (finished) return;
-        if (target.size() == tickets.length+1) {
-            answerList = new ArrayList<>(target);
-            finished = true;
-            return; 
+    boolean dfs(int cnt, String target, List<String> answerList) {
+        if (cnt == n) {
+            answer = answerList.toArray(new String[0]);
+            return true;
         }
-        for (int i=0; i<tickets.length; i++) {
-            if (!visited[i] && tickets[i][0].equals(target.get(target.size()-1))) {
+        
+        for (int i=0; i<n; i++) {
+            if (!visited[i] && Tickets[i][0].equals(target)) {
+                answerList.add(Tickets[i][1]);
                 visited[i] = true;
-                target.add(tickets[i][1]);
-                dfs(tickets, visited, target);
+                if (dfs(cnt+1, Tickets[i][1], answerList)) return true;
+                answerList.remove(answerList.size()-1);
                 visited[i] = false;
-                target.remove(target.size()-1);
             }
         }
+        return false;
     }
 }
