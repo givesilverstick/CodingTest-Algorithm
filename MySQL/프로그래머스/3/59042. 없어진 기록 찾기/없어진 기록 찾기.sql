@@ -1,3 +1,6 @@
-SELECT o.animal_id, o.name from animal_outs o
-left join animal_ins i on i.animal_id = o.animal_id
-where i.INTAKE_CONDITION is null;
+-- 코드를 입력하세요
+SELECT o.ANIMAL_ID, o.NAME
+FROM animal_ins i
+RIGHT JOIN animal_outs o ON i.animal_id = o.animal_id
+WHERE i.animal_id IS NULL
+;
