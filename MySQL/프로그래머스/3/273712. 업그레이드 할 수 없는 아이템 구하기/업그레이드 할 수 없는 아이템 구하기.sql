@@ -1,0 +1,16 @@
+-- 코드를 작성해주세요
+# SELECT t.parent_
+# FROM ITEM_INFO i
+# LEFT JOIN ITEM_TREE t ON i.item_id=t.item_id
+# ;
+
+
+SELECT ITEM_ID, ITEM_NAME, RARITY
+FROM ITEM_INFO 
+WHERE item_id NOT IN (
+        SELECT DISTINCT parent_item_id
+        FROM ITEM_TREE
+        WHERE parent_item_id IS NOT NULL
+    )
+ORDER BY item_id DESC
+;
