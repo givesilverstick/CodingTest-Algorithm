@@ -1,0 +1,14 @@
+-- 코드를 입력하세요
+# 1. 들어올 때 중성화되지 않은 동물 찾기
+# 2. 그 중에 나갈 때 중성화된 동물 찾기
+SELECT ANIMAL_ID
+FROM ANIMAL_INS
+WHERE SEX_UPON_INTAKE LIKE '%Intact%'
+;
+
+SELECT i.ANIMAL_ID, i.ANIMAL_TYPE, i.NAME
+FROM ANIMAL_INS i
+LEFT JOIN ANIMAL_OUTS o ON i.ANIMAL_ID=o.ANIMAL_ID
+WHERE i.SEX_UPON_INTAKE LIKE '%Intact%'
+    AND o.SEX_UPON_OUTCOME NOT LIKE '%Intact%'
+;
