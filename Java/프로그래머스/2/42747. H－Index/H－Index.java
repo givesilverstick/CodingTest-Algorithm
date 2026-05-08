@@ -2,22 +2,25 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] citations) {
+        /*
+        총 논문 수 : n편
+            A (h번 이상 인용된 논문 수) : h편 이상
+            n - A (나머지) : h편 이하 
+        ==> h의 최댓값 : H-Index
+        */
         int n = citations.length;
-        int answer = n;
-        boolean isMax = false;
         Arrays.sort(citations);
-        System.out.println(citations[n-1]);
-        while (!isMax) {
-            int count = 0;
-            for (int i=n-1; i>=0; i--) {
-                if (citations[i] >= answer) count++;
-                if (count >= answer) {
-                    isMax = true;
+        for (int h = n; h >= 0; h--) {
+            int cnt = 0;
+            for (int i=0; i<n; i++) {
+                if (citations[i]>=h) {
+                    cnt = n-i;
                     break;
                 }
             }
-            if (count < answer) answer--;
+            if (cnt >= h) return h;
         }
-        return answer;
+        
+        return 0;
     }
 }
