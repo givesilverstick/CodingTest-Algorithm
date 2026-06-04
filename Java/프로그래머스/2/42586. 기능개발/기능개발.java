@@ -9,7 +9,8 @@ class Solution {
         */
         int n = progresses.length;  // 작업 수
         int[] processTime = new int[n]; // 완료하는데 걸리는 시간
-        Map<Integer, Integer> map = new TreeMap<>();    // day, count
+        List<Integer> answerList = new ArrayList<>();
+        
         for (int i=0; i<n; i++) {
             int day = (100-progresses[i])/speeds[i];
             if ((100-progresses[i])%speeds[i] > 0) {
@@ -17,17 +18,18 @@ class Solution {
             }
             
             processTime[i] = day;
-            if (i!=0 && processTime[i-1] > processTime[i]) {
+            if (i!=0 && processTime[i-1] >= processTime[i]) {
                 processTime[i] = processTime[i-1];
+                int idx = answerList.size()-1;
+                int count = answerList.get(idx);
+                answerList.set(idx, count+1);
+            } else {
+                answerList.add(1);
             }
-            map.put(processTime[i], map.getOrDefault(processTime[i], 0)+1);
         }
         
-        int[] answer = new int[map.size()];
-        int i = 0;
-        for (int key : map.keySet()) {
-            answer[i++] = map.get(key);
-        }
+        int[] answer = new int[answerList.size()];
+        for (int i=0; i<answerList.size(); i++) answer[i] = answerList.get(i);
         return answer;
     }
 }
