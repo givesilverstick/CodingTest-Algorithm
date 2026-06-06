@@ -11,25 +11,28 @@ class Solution {
             maxPrior = Math.max(maxPrior, priorities[i]);
         }
         
-        List<Integer> order = new ArrayList<>();    // 실행 순서대로 인덱스 저장
+        int answer = 0;
         while (!runQ.isEmpty()) {
             int cur = runQ.poll();
             int idx = idxQ.poll();
+            
             boolean isPrior = true;
+            
             for (int i=cur+1; i<=maxPrior; i++) {
                 if (runQ.contains(i)) {
                     isPrior = false;
                     break;
                 }
             }
+            
             if (isPrior) {
-                order.add(idx);
+                answer++;
+                if (idx==location) return answer;
             } else {
                 runQ.offer(cur);
                 idxQ.offer(idx);
             }
         }
-        int answer = order.indexOf(location)+1;
         return answer;
     }
 }
