@@ -19,9 +19,9 @@ class Solution {
             }
         }
         for (String key : inRecord.keySet()) {
-            int time = toMinutes(new String[] {"23","59"});
+            int endTime = 23*60 + 59;
             int totalTime = timeMap.getOrDefault(key, 0);
-            timeMap.put(key, totalTime + time-inRecord.get(key));
+            timeMap.put(key, totalTime + endTime-inRecord.get(key));
             // inRecord.remove(key);
         }
         
