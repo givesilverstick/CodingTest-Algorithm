@@ -3,28 +3,20 @@ class Solution {
         int cnt1 = 0;
         int cnt2 = 0;
         while (!s.equals("1")) {
-            StringBuilder sb = new StringBuilder();
+            int oneCnt = 0;
             for (int i=0; i<s.length(); i++) {
                 if (s.charAt(i) == '1') {
-                    sb.append('1');
+                    oneCnt++;
                 } else {
                     cnt2++;
                 }
             }
-            s = toBinaryNum(sb.length());
+            s = Integer.toBinaryString(oneCnt); // 2진수로 변환하는 메서드 있음
             cnt1++;
         }
         int[] answer = new int[2];
         answer[0] = cnt1;
         answer[1] = cnt2;
         return answer;
-    }
-    
-    String toBinaryNum(int len) {
-        String str = "";
-        for (int i=len; i>0; i/=2) {
-            str = i%2 + str;
-        }
-        return str;
     }
 }
